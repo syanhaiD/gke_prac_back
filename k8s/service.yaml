@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-api
+  namespace: prac
+spec:
+  ports:
+    - port: 22222
+      protocol: TCP
+      targetPort: 22222
+  selector:
+    run: go-api
+  type: NodePort

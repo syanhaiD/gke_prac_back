@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-api
+  namespace: garp
+  labels:
+    appName: go-api
+    env: prac
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: go-api
+  template:
+    metadata:
+      labels:
+        run: go-api
+    spec:
+      containers:
+        - name: go-api
+          image: [[GCR image url]]
+          ports:
+            - containerPort: 22222
+          readinessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: 22222
+              scheme: HTTP
+          env:
+            - name: SUGOI_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: prac-secret
+                  key: sugoi_env
+                  optional: true
+          volumeMounts:
+            - mountPath: /work/mount
+              readOnly: true
+              name: prac-secret
+      volumes:
+        - name: prac-secret
+          secret:
+            secretName: prac-secret
+            items:
+              - key: fbservice.json
+                path: fbservice.json

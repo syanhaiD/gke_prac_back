@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prac-ingress
+  namespace: prac
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "static ip name"
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  rules:
+    - host: [[your domain]]
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: vue-app
+              servicePort: 80
+          - path: /api/*
+            backend:
+              serviceName: go-api
+              servicePort: 22222
