@@ -17,7 +17,7 @@ func exec() int {
 		fmt.Println(err)
 		return 1
 	}
-	_ = r.Run(":8081")
+	_ = r.Run(":22222")
 
 	return 0
 }
